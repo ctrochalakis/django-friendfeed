@@ -1,0 +1,26 @@
+Django FriendFeeed
+==================
+
+A quick & dirty django app introducing friendfeed template tags. For
+now there is only what i needed for my blog, that is a friendfeed user
+feed template tag. Though the infrastructure is there to implement new
+feeds and map the whole friendfeed API to template tags. You just have
+write a new FFNode.my_feed() method and send a patch.
+
+Oh, you can see a sample template at templates/ff_user_feed.html 
+Usage
+=====
+settings.py:
+
+INSTALLED_APPS = (
+    ...
+    'django_friendfeed',
+    ...
+)
+
+mytemplate.html:
+
+{% load fftags %}
+
+{% ff_user_feed "ctrochalakis" 10 partial/ff.html %}
+

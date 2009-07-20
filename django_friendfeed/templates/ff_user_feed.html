@@ -1,0 +1,18 @@
+<ul>
+{% for item in items %}
+  <li title="{{item.published|timesince}} ago">
+    <a href="{{ item.service.profileUrl }}">
+      <img src="{{item.service.iconUrl}}" alt="{{ item.service.name }}" />
+    </a>
+    {{ item.title }}
+    <a href="{{ item.link }} ">&rarr;</a>
+  </li>
+<p>
+{% for media in item.media %}
+{% for thumb in media.thumbnails %}
+<img src="{{thumb.url}}"></img>
+{% endfor %}
+{% endfor %}
+</p>
+{% endfor %}
+</ul>
