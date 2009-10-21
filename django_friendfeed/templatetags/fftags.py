@@ -1,4 +1,6 @@
 import datetime
+from urllib2 import URLError
+
 from django import template
 from django.template.loader import render_to_string
 
@@ -15,14 +17,15 @@ class FFNode(template.Node):
     def user_feed(self, context):
         username_var = template.Variable(self.options['username'])
         username = username_var.resolve(context)
-
-        items = self.ff.fetch_user_feed(username)['entries']
-        items_requested = int(self.options.get('num_items', len(items)))
-        num_items = min(items_requested, len(items))
-
-        context['items'] = items[:num_items]
-        context['username'] = username
-
+	try:
+	    items = self.ff.fetch_user_feed(username)['entries']
+	    items_requested = int(self.options.get('num_items', len(items)))
+	    num_items = min(items_requested, len(items))
+	    context['items'] = items[:num_items]
+	    context['username'] = username
+	except URLError:
+	    context['items'] = []
+	    context['username'] = username
         return render_to_string(self.template_name, context)
 
 def do_ff_user_feed(parser, token):
